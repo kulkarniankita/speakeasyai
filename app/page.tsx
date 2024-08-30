@@ -2,7 +2,6 @@ import BgGradient from "@/components/common/bg-gradient";
 import Banner from "@/components/home/banner";
 import HowItWorks from "@/components/home/howitworks";
 import Pricing from "@/components/home/pricing";
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { Dot } from "lucide-react";
 
 export default function Home() {
