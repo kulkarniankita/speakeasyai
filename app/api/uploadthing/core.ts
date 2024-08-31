@@ -9,6 +9,8 @@ export const ourFileRouter = {
     .middleware(async ({ req }) => {
       const user = await currentUser();
 
+      console.log({ user });
+
       if (!user) throw new UploadThingError("Unauthorized");
 
       return { userId: user.id };
@@ -20,7 +22,7 @@ export const ourFileRouter = {
       console.log("file url", file.url);
 
       // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
-      return { uploadedBy: metadata.userId, fileUrl: file.url };
+      return { userId: metadata.userId, file };
     }),
 } satisfies FileRouter;
 

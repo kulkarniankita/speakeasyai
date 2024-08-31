@@ -10,9 +10,14 @@ import {
   updateUser,
 } from "@/lib/user-helpers";
 import { currentUser } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 
 export default async function Dashboard() {
   const clerkUser = await currentUser();
+
+  if (!clerkUser) {
+    return redirect("/sign-in");
+  }
 
   const email = clerkUser?.emailAddresses?.[0].emailAddress ?? "";
 
