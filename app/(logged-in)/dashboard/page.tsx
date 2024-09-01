@@ -61,7 +61,7 @@ export default async function Dashboard() {
             Upload your audio or video file and let our AI do the magic!
           </p>
 
-          <p className="mt-2 text-lg leading-8 text-gray-600 max-w-2xl text-center sm:text-4xl">
+          <p className="mt-2 text-lg leading-8 text-gray-600 max-w-2xl text-center">
             You get{" "}
             <span className="font-bold text-amber-600 bg-amber-100 px-2 py-1 rounded-md">
               {isBasicPlan ? "3" : "Unlimited"} blog posts
