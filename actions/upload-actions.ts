@@ -72,23 +72,31 @@ export async function transcribeUploadedFile(
 async function saveBlogPost(userId: string, title: string, content: string) {
   try {
     const sql = await getDbConnection();
-    const [insertedPost] =
-      await sql`INSERT into posts (user_id, title, content) VALUES(${userId},${title}, ${content}) RETURNING id`;
+    const [insertedPost] = await sql`
+    INSERT INTO posts (user_id, title, content)
+    VALUES (${userId}, ${title}, ${content})
+    RETURNING id
+    `;
     return insertedPost.id;
   } catch (error) {
     console.error("Error saving blog post", error);
+    throw error;
   }
 }
 
-async function getLatestPosts(userId: string) {
+async function getUserBlogPosts(userId: string) {
   try {
     const sql = await getDbConnection();
-    const posts =
-      await sql`SELECT content from posts where user_id = ${userId} ORDER BY created_at DESC LIMIT 3`;
-
+    const posts = await sql`
+    SELECT content FROM posts 
+    WHERE user_id = ${userId} 
+    ORDER BY created_at DESC 
+    LIMIT 3
+  `;
     return posts.map((post) => post.content).join("\n\n");
   } catch (error) {
     console.error("Error getting user blog posts", error);
+    throw error;
   }
 }
 
@@ -106,8 +114,6 @@ async function generateBlogPost({
         content:
           "You are a skilled content writer that converts audio transcriptions into well-structured, engaging blog posts in Markdown format. Create a comprehensive blog post with a catchy title, introduction, main body with multiple sections, and a conclusion. Analyze the user's writing style from their previous posts and emulate their tone and style in the new post. Keep the tone casual and professional.",
       },
-      { role: "user", content: "Who won the world series in 2020?" },
-
       {
         role: "user",
         content: `Here are some of my previous blog posts for reference:
@@ -130,11 +136,12 @@ Here's the transcription to convert: ${transcriptions}`,
       },
     ],
     model: "gpt-4o-mini",
+    temperature: 0.7,
+    max_tokens: 1000,
   });
 
   return completion.choices[0].message.content;
 }
-
 export async function generateBlogPostAction({
   transcriptions,
   userId,
@@ -142,7 +149,7 @@ export async function generateBlogPostAction({
   transcriptions: { text: string };
   userId: string;
 }) {
-  const userPosts = (await getLatestPosts(userId)) ?? "";
+  const userPosts = await getUserBlogPosts(userId);
 
   let postId = null;
 
@@ -163,7 +170,7 @@ export async function generateBlogPostAction({
 
     //database connection
 
-    if (userId) {
+    if (blogPost) {
       postId = await saveBlogPost(userId, title, blogPost);
     }
   }

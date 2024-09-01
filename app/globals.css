@@ -83,4 +83,54 @@
   button {
     @apply hover:cursor-pointer bg-purple-600 hover:bg-purple-700;
   }
+
+  /* Markdown content styles */
+  .markdown-content {
+    @apply mx-auto;
+  }
+
+  .markdown-content h1 {
+    @apply text-3xl font-bold mt-8 mb-4;
+  }
+
+  .markdown-content h2 {
+    @apply text-2xl font-semibold mt-6 mb-3;
+  }
+
+  .markdown-content h3 {
+    @apply text-xl font-medium mt-4 mb-2;
+  }
+
+  .markdown-content p {
+    @apply mb-4 leading-7;
+  }
+
+  .markdown-content ul,
+  .markdown-content ol {
+    @apply mb-4 pl-6;
+  }
+
+  .markdown-content li {
+    @apply mb-2 list-disc;
+  }
+
+  .markdown-content a {
+    @apply text-blue-600 hover:underline;
+  }
+
+  .markdown-content blockquote {
+    @apply border-l-4 border-gray-300 pl-4 italic my-4;
+  }
+
+  .markdown-content code {
+    @apply bg-gray-100 rounded px-1 py-0.5 font-mono text-sm;
+  }
+
+  .markdown-content pre {
+    @apply bg-gray-100 rounded p-4 overflow-x-auto my-4;
+  }
+
+  .markdown-content pre code {
+    @apply bg-transparent p-0;
+  }
 }
