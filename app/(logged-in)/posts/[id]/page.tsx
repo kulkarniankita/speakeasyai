@@ -16,7 +16,7 @@ export default async function PostsPage({
 
   const sql = await getDbConnection();
 
-  const posts =
+  const posts: any =
     await sql`SELECT * from posts where user_id = ${user.id} and id = ${id}`;
 
   return (
