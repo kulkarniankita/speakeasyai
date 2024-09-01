@@ -39,10 +39,6 @@ To get started with this project, you need to do the following,
 2. Copy the .env.example variables into a separate .env.local file
 3. Create the credentials mentioned in the Youtube tutorial to get started!
 
-```
-
-```
-
 ## 1. How to fork and clone
 
 - If you want to make changes and contribute to this project, you'll need to create a fork first. Forking creates a copy of the original project in your own GitHub account. This lets you experiment with edits without affecting the main project.
