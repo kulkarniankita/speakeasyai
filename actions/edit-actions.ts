@@ -11,7 +11,6 @@ export async function updatePostAction(data: {
 }) {
   const { postId, content } = data;
 
-  console.log({ content });
   const user = await currentUser();
   if (!user) {
     redirect("/sign-in");
