@@ -39,11 +39,17 @@ export default async function Dashboard() {
 
     priceId = user[0].price_id;
   }
+
   const { id: planTypeId = "starter", name: planTypeName } =
     getPlanType(priceId);
 
   const isBasicPlan = planTypeId === "basic";
   const isProPlan = planTypeId === "pro";
+
+  // check number of posts per plan
+  const posts = await sql`SELECT * FROM posts WHERE user_id = ${userId}`;
+
+  const isValidBasicPlan = isBasicPlan && posts.length < 3;
 
   return (
     <BgGradient>
@@ -61,21 +67,23 @@ export default async function Dashboard() {
             Upload your audio or video file and let our AI do the magic!
           </p>
 
-          <p className="mt-2 text-lg leading-8 text-gray-600 max-w-2xl text-center">
-            You get{" "}
-            <span className="font-bold text-amber-600 bg-amber-100 px-2 py-1 rounded-md">
-              {isBasicPlan ? "3" : "Unlimited"} blog posts
-            </span>{" "}
-            as part of the{" "}
-            <span className="font-bold capitalize">{planTypeName}</span> Plan.
-          </p>
+          {(isBasicPlan || isProPlan) && (
+            <p className="mt-2 text-lg leading-8 text-gray-600 max-w-2xl text-center">
+              You get{" "}
+              <span className="font-bold text-amber-600 bg-amber-100 px-2 py-1 rounded-md">
+                {isBasicPlan ? "3" : "Unlimited"} blog posts
+              </span>{" "}
+              as part of the{" "}
+              <span className="font-bold capitalize">{planTypeName}</span> Plan.
+            </p>
+          )}
 
-          {false ? (
-            <UpgradeYourPlan />
-          ) : (
+          {isValidBasicPlan || isProPlan ? (
             <BgGradient>
               <UploadForm />
             </BgGradient>
+          ) : (
+            <UpgradeYourPlan />
           )}
         </div>
       </div>
